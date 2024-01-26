@@ -1,6 +1,6 @@
 import Home from "../app/page";
 
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 
 describe("Hello world", () => {
   it("does this", async () => {
