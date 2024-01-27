@@ -1,6 +1,13 @@
-import { Checkbox, TableCell, TableRow } from '@mui/material'
+import { type productCategory } from '@/app/interfaces/products'
+import { TableCell, TableRow } from '@mui/material'
+import { type ReactElement } from 'react'
+import React from 'react'
 
-function CategoryItem ({ category, selected, onSelect }) {
+function CategoryItem ({
+  category,
+  selected,
+  onSelect
+}: CategoryItemProps): ReactElement {
   return (
     <TableRow
       sx={{
@@ -14,6 +21,12 @@ function CategoryItem ({ category, selected, onSelect }) {
       <TableCell>{category.name}</TableCell>
     </TableRow>
   )
+}
+
+interface CategoryItemProps {
+  category: productCategory
+  selected: boolean
+  onSelect: (id: number) => any
 }
 
 export default CategoryItem
