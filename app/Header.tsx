@@ -27,15 +27,6 @@ function Header ({ title }: { title: string }) {
           Register
         </Button>
       </Toolbar>
-      <Toolbar
-        component="nav"
-        variant="dense"
-        sx={{ justifyContent: 'space-between', overflowX: 'auto' }}
-      >
-        <Link color="inherit" href="/products">
-          Products
-        </Link>
-      </Toolbar>
     </Paper>
   )
 }

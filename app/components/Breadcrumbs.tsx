@@ -6,7 +6,7 @@ import {
 import Link from 'next/link'
 function Breadcrumbs ({ links, currentPage }) {
   return (
-    <Paper elevation={1} sx={{ padding: '5px' }}>
+    <Paper elevation={1} sx={{ padding: '5px', marginBottom: '10px' }}>
       <MuiBreadcrumbs aria-label="breadcrumb">
         <Link href="/">Home</Link>
         {links.map((l) => (
