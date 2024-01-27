@@ -1,14 +1,24 @@
 import { productCategory, type product } from '@/app/interfaces/products';
 
-export function productPageReducer(state, action) {
+export function productPageReducer(
+  state: ProductPageState,
+  action: ProductPageAction
+): ProductPageState {
+  console.log({ action });
   switch (action.type) {
-    case productPageTypes.PRODUCTS_LOADED:
+    case 'PRODUCTS_LOADED':
       return {
         ...state,
         allProducts: action.products,
-        filteredProducts: action.products,
+        filteredProducts:
+          state.selectedCategory === null
+            ? action.products
+            : action.products.filter(
+                (x: product) => x.category.id === state.selectedCategory
+              ),
       };
-    case productPageTypes.CATEGORY_TOGGLED:
+
+    case 'CATEGORY_TOGGLED':
       if (action.categoryId === null) {
         return {
           ...state,
@@ -17,29 +27,32 @@ export function productPageReducer(state, action) {
           title: 'All Products',
         };
       }
+
+      if (state.allProducts === null) {
+        return state;
+      }
+
       return {
         ...state,
         selectedCategory: action.categoryId,
         filteredProducts: state.allProducts.filter(
           (x: product) => x.category.id === action.categoryId
         ),
-        title: state.categories.find((x: product) => x.id === action.categoryId)
-          .name,
+        title:
+          state.categories === null
+            ? 'All Products'
+            : state.categories.find(
+                (x: productCategory) => x.id === action.categoryId
+              )?.name || 'All Products',
       };
-    case productPageTypes.CATEGORIES_LOADED:
+    case 'CATEGORIES_LOADED':
       return { ...state, categories: action.categories };
     default:
-      break;
+      return state;
   }
 }
 
-export const productPageTypes = {
-  PRODUCTS_LOADED: 'products loaded',
-  CATEGORY_TOGGLED: 'category toggled',
-  CATEGORIES_LOADED: 'categories loaded',
-};
-
-export const initialState = {
+export const initialState: ProductPageState = {
   allProducts: null,
   filteredProducts: null,
   selectedCategory: null,
@@ -48,5 +61,14 @@ export const initialState = {
 };
 
 interface ProductPageState {
-  allProducts: product;
+  allProducts: product[] | null;
+  categories: productCategory[] | null;
+  filteredProducts: product[] | null;
+  selectedCategory: number | null;
+  title: string;
 }
+
+type ProductPageAction =
+  | { type: 'PRODUCTS_LOADED'; products: product[] }
+  | { type: 'CATEGORY_TOGGLED'; categoryId: number | null }
+  | { type: 'CATEGORIES_LOADED'; categories: productCategory[] };

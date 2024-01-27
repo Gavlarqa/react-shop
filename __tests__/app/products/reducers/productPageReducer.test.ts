@@ -1,22 +1,47 @@
+import { product, productCategory } from '@/app/interfaces/products';
 import {
   initialState as productPageInitialState,
   productPageReducer,
-  productPageTypes,
 } from '@/app/products/reducers/productPageReducer';
 
 describe.only('Product Page Reducer', () => {
   let initialState = productPageInitialState;
 
-  const categories = [
-    { id: 1, name: 'Category One' },
-    { id: 2, name: 'Category Two' },
-    { id: 3, name: 'Category Three' },
+  const categories: productCategory[] = [
+    { id: 1, name: 'Category One', image: '' },
+    { id: 2, name: 'Category Two', image: '' },
+    { id: 3, name: 'Category Three', image: '' },
   ];
-  const allProducts = [
-    { id: 1, category: { id: 1 } },
-    { id: 2, category: { id: 2 } },
-    { id: 3, category: { id: 2 } },
-    { id: 4, category: { id: 3 } },
+
+  const allProducts: product[] = [
+    {
+      id: 1,
+      category: { id: 1, name: 'One', image: '' },
+      price: 1,
+      title: 'One',
+      images: ['https://img.1'],
+    },
+    {
+      id: 2,
+      category: { id: 2, name: 'Two', image: '' },
+      price: 2,
+      title: 'Two',
+      images: ['https://img.1'],
+    },
+    {
+      id: 3,
+      category: { id: 2, name: 'Two', image: '' },
+      price: 3,
+      title: 'Three',
+      images: ['https://img.1'],
+    },
+    {
+      id: 4,
+      category: { id: 3, name: 'Three', image: '' },
+      price: 4,
+      title: 'Four',
+      images: ['https://img.1'],
+    },
   ];
 
   beforeEach(() => {
@@ -24,9 +49,18 @@ describe.only('Product Page Reducer', () => {
   });
 
   it('handles loading products', () => {
-    const products = [{ id: 1, name: 'Whatever' }];
+    const products = [
+      {
+        id: 1,
+        name: 'Whatever',
+        price: 1,
+        images: [''],
+        title: 'Blah',
+        category: categories[0],
+      },
+    ];
     const state = productPageReducer(initialState, {
-      type: productPageTypes.PRODUCTS_LOADED,
+      type: 'PRODUCTS_LOADED',
       products,
     });
 
@@ -43,7 +77,7 @@ describe.only('Product Page Reducer', () => {
         selectedCategory: null,
       },
       {
-        type: productPageTypes.CATEGORY_TOGGLED,
+        type: 'CATEGORY_TOGGLED',
         categoryId: 2,
       }
     );
@@ -65,7 +99,7 @@ describe.only('Product Page Reducer', () => {
         selectedCategory: 2,
       },
       {
-        type: productPageTypes.CATEGORY_TOGGLED,
+        type: 'CATEGORY_TOGGLED',
         categoryId: 1,
       }
     );
@@ -84,7 +118,7 @@ describe.only('Product Page Reducer', () => {
         selectedCategory: 2,
       },
       {
-        type: productPageTypes.CATEGORY_TOGGLED,
+        type: 'CATEGORY_TOGGLED',
         categoryId: null,
       }
     );
@@ -94,6 +128,12 @@ describe.only('Product Page Reducer', () => {
     expect(state.title).toEqual('All Products');
   });
 
-  it('handles loading categories', () => {});
-  it('sets the initial state correctly', () => {});
+  it('handles loading categories', () => {
+    const state = productPageReducer(initialState, {
+      type: 'CATEGORIES_LOADED',
+      categories,
+    });
+
+    expect(state).toEqual({ ...initialState, categories });
+  });
 });

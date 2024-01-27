@@ -1,32 +1,32 @@
-import { type productCategory } from '@/app/interfaces/products'
-import { TableCell, TableRow } from '@mui/material'
-import { type ReactElement } from 'react'
-import React from 'react'
+import { type productCategory } from '@/app/interfaces/products';
+import { TableCell, TableRow } from '@mui/material';
+import { type ReactElement } from 'react';
+import React from 'react';
 
-function CategoryItem ({
+function CategoryItem({
   category,
   selected,
-  onSelect
+  onSelect,
 }: CategoryItemProps): ReactElement {
   return (
     <TableRow
       sx={{
         backgroundColor: selected ? 'rgb(238, 245, 245)' : null,
-        cursor: selected ? null : 'pointer'
+        cursor: selected ? null : 'pointer',
       }}
       onClick={() => {
-        onSelect(category.id)
+        onSelect(category.id);
       }}
     >
       <TableCell>{category.name}</TableCell>
     </TableRow>
-  )
+  );
 }
 
 interface CategoryItemProps {
-  category: productCategory
-  selected: boolean
-  onSelect: (id: number) => any
+  category: productCategory;
+  selected: boolean;
+  onSelect: (id: number | null) => any;
 }
 
-export default CategoryItem
+export default CategoryItem;

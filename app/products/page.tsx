@@ -1,56 +1,55 @@
-'use client'
-import { Grid, Paper, Table, TableBody, TableContainer } from '@mui/material'
-import React, { useEffect, useReducer } from 'react'
-import ProductListItem from './ProductListItem'
-import { useSearchParams } from 'next/navigation'
-import CategorySelector from './categories/CategorySelector'
-import Breadcrumbs from '../components/Breadcrumbs'
+'use client';
+import { Grid, Paper, Table, TableBody, TableContainer } from '@mui/material';
+import React, { useEffect, useReducer } from 'react';
+import ProductListItem from './ProductListItem';
+import { useSearchParams } from 'next/navigation';
+import CategorySelector from './categories/CategorySelector';
+import Breadcrumbs from '../components/Breadcrumbs';
 import {
   initialState,
   productPageReducer,
-  productPageTypes
-} from './reducers/productPageReducer'
+} from './reducers/productPageReducer';
 
-export default function ListProductsPage () {
-  const [state, dispatch] = useReducer(productPageReducer, initialState)
+export default function ListProductsPage() {
+  const [state, dispatch] = useReducer(productPageReducer, initialState);
 
-  const { filteredProducts, selectedCategory, categories, title } = state
-  const searchParams = useSearchParams()
-  const categoryId = searchParams.get('categoryid')
+  const { filteredProducts, selectedCategory, categories, title } = state;
+  const searchParams = useSearchParams();
+  const categoryId = searchParams.get('categoryid');
 
   useEffect(() => {
-    const queryString = categoryId ? `?categoryId=${categoryId}` : ''
+    const queryString = categoryId ? `?categoryId=${categoryId}` : '';
 
     fetch('https://api.escuelajs.co/api/v1/products' + queryString)
       .then(async (res) => await res.json())
       .then((data) => {
         dispatch({
-          type: productPageTypes.PRODUCTS_LOADED,
-          products: data
-        })
-      })
-  }, [])
+          type: 'PRODUCTS_LOADED',
+          products: data,
+        });
+      });
+  }, []);
 
   useEffect(() => {
     fetch('https://api.escuelajs.co/api/v1/categories')
       .then(async (r) => await r.json())
       .then((data) => {
         dispatch({
-          type: productPageTypes.CATEGORIES_LOADED,
-          categories: data
-        })
-      })
-  }, [])
+          type: 'CATEGORIES_LOADED',
+          categories: data,
+        });
+      });
+  }, []);
 
-  const handleCategorySelection = (id: number) => {
+  const handleCategorySelection = (id: number | null) => {
     dispatch({
-      type: productPageTypes.CATEGORY_TOGGLED,
-      categoryId: id
-    })
-  }
+      type: 'CATEGORY_TOGGLED',
+      categoryId: id,
+    });
+  };
 
   if (filteredProducts === null) {
-    return <h2>Loading...</h2>
+    return <h2>Loading...</h2>;
   }
 
   return (
@@ -65,13 +64,11 @@ export default function ListProductsPage () {
           />
         </Grid>
         <Grid item xs={7}>
-          {filteredProducts.length === 0
-            ? (
+          {filteredProducts.length === 0 ? (
             <h2>There are no Products</h2>
-              )
-            : (
+          ) : (
             <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 650 }} aria-label="product table">
+              <Table sx={{ minWidth: 650 }} aria-label='product table'>
                 <TableBody>
                   {filteredProducts.map((product) => (
                     <ProductListItem
@@ -86,12 +83,12 @@ export default function ListProductsPage () {
                 </TableBody>
               </Table>
             </TableContainer>
-              )}
+          )}
         </Grid>
         <Grid item xs={3}>
-          <hokodo-marketing data-element="square-small" />
+          <hokodo-marketing data-element='square-small' />
         </Grid>
       </Grid>
     </React.Fragment>
-  )
+  );
 }
