@@ -84,8 +84,20 @@ describe.only('Product Page Reducer', () => {
 
     expect(state.allProducts).toEqual(allProducts);
     expect(state.filteredProducts).toEqual([
-      { id: 2, category: { id: 2 } },
-      { id: 3, category: { id: 2 } },
+      {
+        id: 2,
+        images: ['https://img.1'],
+        price: 2,
+        title: 'Two',
+        category: { id: 2, image: '', name: 'Two' },
+      },
+      {
+        id: 3,
+        images: ['https://img.1'],
+        price: 3,
+        title: 'Three',
+        category: { id: 2, image: '', name: 'Two' },
+      },
     ]);
     expect(state.title).toEqual('Category Two');
   });
@@ -105,7 +117,15 @@ describe.only('Product Page Reducer', () => {
     );
 
     expect(state.allProducts).toEqual(allProducts);
-    expect(state.filteredProducts).toEqual([{ id: 1, category: { id: 1 } }]);
+    expect(state.filteredProducts).toEqual([
+      {
+        id: 1,
+        category: { id: 1, name: 'One', image: '' },
+        images: ['https://img.1'],
+        price: 1,
+        title: 'One',
+      },
+    ]);
     expect(state.title).toEqual('Category One');
   });
 
