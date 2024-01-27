@@ -11,13 +11,8 @@ import React from "react";
 import { useEffect, useState } from "react";
 import CategoryItem from "./CategoryItem";
 
-function CategorySelector({ selectedCategories, onSelectCategory }) {
-  const [categories, setCategories] = useState(null);
-  useEffect(() => {
-    fetch("https://api.escuelajs.co/api/v1/categories")
-      .then((r) => r.json())
-      .then((data) => setCategories(data));
-  }, []);
+function CategorySelector({ selectedCategory, onSelectCategory, categories }) {
+  // const [categories, setCategories] = useState(null);
 
   if (categories === null) return <h2>Loading...</h2>;
 
@@ -30,7 +25,7 @@ function CategorySelector({ selectedCategories, onSelectCategory }) {
               <CategoryItem
                 key={cat.id}
                 category={cat}
-                selected={selectedCategories.includes(cat.id)}
+                selected={selectedCategory === cat.id}
                 onSelect={onSelectCategory}
               />
             ))}

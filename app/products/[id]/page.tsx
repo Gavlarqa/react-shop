@@ -39,7 +39,6 @@ export default function ProductDetailsPage({
       <p>{product.description}</p>
       <p>£{product.price}</p>
       <p>{product.category.name}</p>
-      <hokodo-marketing data-element="square-small" />
     </React.Fragment>
   );
 }

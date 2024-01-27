@@ -2,15 +2,16 @@ import { Checkbox, TableCell, TableRow } from "@mui/material";
 
 function CategoryItem({ category, selected, onSelect }) {
   return (
-    <TableRow>
-      <TableCell>
-        <Checkbox checked={selected} onChange={() => onSelect(category.id)} />
-      </TableCell>
-      <TableCell>
-        <img src={category.image} height={50} />
-      </TableCell>
+    <TableRow
+      sx={{
+        backgroundColor: selected ? "rgb(238, 245, 245)" : null,
+        cursor: selected ? null : "pointer",
+      }}
+      onClick={() => {
+        onSelect(category.id);
+      }}
+    >
       <TableCell>{category.name}</TableCell>
-      <TableCell>{category.description}</TableCell>
     </TableRow>
   );
 }

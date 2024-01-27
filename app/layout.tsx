@@ -11,10 +11,13 @@ export default function RootLayout({
   useEffect(() => {
     const hokodoObject = (window as any).Hokodo;
     if (hokodoObject !== null) {
-      (window as any).hokodoInstance = hokodoObject({
-        locale: "en-GB",
-        currency: "GBP",
-      });
+      (window as any).hokodoInstance = hokodoObject(
+        "pk_test_GN0bK94CL1zsp_4mYsPMfdUZ0zdBfSuRpN0UEoSTqLg",
+        {
+          locale: "en-GB",
+          currency: "GBP",
+        }
+      );
 
       (window as any).hokodoInstance.marketing();
 

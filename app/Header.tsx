@@ -1,4 +1,4 @@
-import { Button, IconButton, Toolbar, Typography } from "@mui/material";
+import { Button, IconButton, Paper, Toolbar, Typography } from "@mui/material";
 import React from "react";
 import PropTypes from "prop-types";
 import SearchIcon from "@mui/icons-material/Search";
@@ -7,7 +7,7 @@ import Link from "next/link";
 
 function Header({ title }: { title: string }) {
   return (
-    <React.Fragment>
+    <Paper elevation={1} sx={{ marginBottom: "15px" }}>
       <Toolbar sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Button size="small">Subscribe</Button>
         <Typography
@@ -36,7 +36,7 @@ function Header({ title }: { title: string }) {
           Products
         </Link>
       </Toolbar>
-    </React.Fragment>
+    </Paper>
   );
 }
 
