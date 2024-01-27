@@ -5,16 +5,15 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TableRow,
-} from "@mui/material";
-import React from "react";
-import { useEffect, useState } from "react";
-import CategoryItem from "./CategoryItem";
+  TableRow
+} from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import CategoryItem from './CategoryItem'
 
-function CategorySelector({ selectedCategory, onSelectCategory, categories }) {
+function CategorySelector ({ selectedCategory, onSelectCategory, categories }) {
   // const [categories, setCategories] = useState(null);
 
-  if (categories === null) return <h2>Loading...</h2>;
+  if (categories === null) return <h2>Loading...</h2>
 
   return (
     <React.Fragment>
@@ -33,7 +32,7 @@ function CategorySelector({ selectedCategory, onSelectCategory, categories }) {
         </Table>
       </TableContainer>
     </React.Fragment>
-  );
+  )
 }
 
-export default CategorySelector;
+export default CategorySelector

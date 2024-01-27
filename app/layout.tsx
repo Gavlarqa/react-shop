@@ -1,29 +1,29 @@
-"use client";
-import { Container, CssBaseline } from "@mui/material";
-import { createTheme } from "@mui/material/styles";
-import ThemeProvider from "@mui/material/styles/ThemeProvider";
-import Header from "./Header";
-import { useEffect } from "react";
+'use client'
+import { Container, CssBaseline } from '@mui/material'
+import { createTheme } from '@mui/material/styles'
+import ThemeProvider from '@mui/material/styles/ThemeProvider'
+import Header from './Header'
+import { useEffect } from 'react'
 
-export default function RootLayout({
-  children,
+export default function RootLayout ({
+  children
 }: Readonly<{ children: React.ReactNode }>) {
   useEffect(() => {
-    const hokodoObject = (window as any).Hokodo;
+    const hokodoObject = (window as any).Hokodo
     if (hokodoObject !== null) {
       (window as any).hokodoInstance = hokodoObject(
-        "pk_test_GN0bK94CL1zsp_4mYsPMfdUZ0zdBfSuRpN0UEoSTqLg",
+        'pk_test_GN0bK94CL1zsp_4mYsPMfdUZ0zdBfSuRpN0UEoSTqLg',
         {
-          locale: "en-GB",
-          currency: "GBP",
+          locale: 'en-GB',
+          currency: 'GBP'
         }
       );
 
-      (window as any).hokodoInstance.marketing();
+      (window as any).hokodoInstance.marketing()
 
-      console.log("Hokodo Loaded");
+      console.log('Hokodo Loaded')
     }
-  }, []);
+  }, [])
   return (
     <html lang="en">
       <head>
@@ -40,7 +40,7 @@ export default function RootLayout({
         </ThemeProvider>
       </body>
     </html>
-  );
+  )
 }
 // import type { Metadata } from "next";
 // import { Inter } from "next/font/google";

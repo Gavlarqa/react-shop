@@ -1,25 +1,25 @@
-"use client";
-import { TableCell, TableRow } from "@mui/material";
-import { useRouter } from "next/navigation";
+'use client'
+import { TableCell, TableRow } from '@mui/material'
+import { useRouter } from 'next/navigation'
 
-export default function ProductListItem({
+export default function ProductListItem ({
   title,
   imageUrl,
   categoryName,
   price,
-  id,
+  id
 }: {
-  id: number;
-  title: string;
-  imageUrl: string;
-  categoryName: string;
-  price: number;
+  id: number
+  title: string
+  imageUrl: string
+  categoryName: string
+  price: number
 }) {
-  const router = useRouter();
+  const router = useRouter()
   return (
     <TableRow
-      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-      onClick={() => router.push(`/products/${id}`)}
+      sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+      onClick={() => { router.push(`/products/${id}`) }}
     >
       <TableCell>
         <img src={imageUrl} alt={title} height={150} />
@@ -30,5 +30,5 @@ export default function ProductListItem({
       <TableCell>{categoryName}</TableCell>
       <TableCell>£{price}</TableCell>
     </TableRow>
-  );
+  )
 }

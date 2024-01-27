@@ -1,12 +1,12 @@
 import {
   Breadcrumbs as MuiBreadcrumbs,
   Paper,
-  Typography,
-} from "@mui/material";
-import Link from "next/link";
-function Breadcrumbs({ links, currentPage }) {
+  Typography
+} from '@mui/material'
+import Link from 'next/link'
+function Breadcrumbs ({ links, currentPage }) {
   return (
-    <Paper elevation={1} sx={{ padding: "5px" }}>
+    <Paper elevation={1} sx={{ padding: '5px' }}>
       <MuiBreadcrumbs aria-label="breadcrumb">
         <Link href="/">Home</Link>
         {links.map((l) => (
@@ -15,7 +15,7 @@ function Breadcrumbs({ links, currentPage }) {
         <Typography color="text.primary">{currentPage}</Typography>
       </MuiBreadcrumbs>
     </Paper>
-  );
+  )
 }
 
-export default Breadcrumbs;
+export default Breadcrumbs

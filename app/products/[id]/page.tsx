@@ -1,33 +1,32 @@
-"use client";
+'use client'
 
-import Breadcrumbs from "@/app/components/Breadcrumbs";
-import React from "react";
-import { useEffect, useState } from "react";
+import Breadcrumbs from '@/app/components/Breadcrumbs'
+import React, { useEffect, useState } from 'react'
 
-export default function ProductDetailsPage({
-  params,
+export default function ProductDetailsPage ({
+  params
 }: {
-  params: { id: number };
+  params: { id: number }
 }) {
-  const [product, setProduct] = useState(null);
+  const [product, setProduct] = useState(null)
 
   useEffect(() => {
     fetch(`https://api.escuelajs.co/api/v1/products/${params.id}`)
-      .then((r) => r.json())
-      .then((p) => setProduct(p));
-  }, []);
+      .then(async (r) => await r.json())
+      .then((p) => { setProduct(p) })
+  }, [])
 
-  if (product === null) return <h2>Loading...</h2>;
+  if (product === null) return <h2>Loading...</h2>
 
   return (
     <React.Fragment>
       <Breadcrumbs
         links={[
-          { url: "/products", text: "All Products" },
+          { url: '/products', text: 'All Products' },
           {
             url: `/products?categoryid=${product.category.id}`,
-            text: product.category.name,
-          },
+            text: product.category.name
+          }
         ]}
         currentPage={product.title}
       />
@@ -40,5 +39,5 @@ export default function ProductDetailsPage({
       <p>£{product.price}</p>
       <p>{product.category.name}</p>
     </React.Fragment>
-  );
+  )
 }
