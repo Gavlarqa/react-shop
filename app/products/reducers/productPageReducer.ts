@@ -13,7 +13,7 @@ function filterProducts(
       ? allProducts
       : allProducts.filter((x) => x.category.id === categoryId);
 
-  const startIndex = currentPage === 0 ? 0 : (currentPage + 1) * pageSize;
+  const startIndex = currentPage === 0 ? 0 : currentPage * pageSize;
   const endIndex = startIndex + pageSize;
 
   const numberOfPages = Math.ceil(filteredProducts.length / pageSize);

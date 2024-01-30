@@ -5,6 +5,19 @@ import {
 } from '@/app/products/reducers/productPageReducer';
 
 describe('Product Page Reducer', () => {
+  let allProducts: product[] = [];
+
+  beforeAll(() => {
+    for (let i = 0; i < 100; i++) {
+      allProducts.push({
+        id: i,
+        title: 'Whatever ' + i,
+        price: 1 * 1,
+        images: [''],
+        category: categories[0],
+      });
+    }
+  });
   let initialState = productPageInitialState;
 
   const categories: productCategory[] = [
@@ -13,82 +26,24 @@ describe('Product Page Reducer', () => {
     { id: 3, name: 'Category Three', image: '' },
   ];
 
-  const allProducts: product[] = [
-    {
-      id: 1,
-      category: { id: 1, name: 'One', image: '' },
-      price: 1,
-      title: 'One',
-      images: ['https://img.1'],
-    },
-    {
-      id: 2,
-      category: { id: 2, name: 'Two', image: '' },
-      price: 2,
-      title: 'Two',
-      images: ['https://img.1'],
-    },
-    {
-      id: 3,
-      category: { id: 2, name: 'Two', image: '' },
-      price: 3,
-      title: 'Three',
-      images: ['https://img.1'],
-    },
-    {
-      id: 4,
-      category: { id: 3, name: 'Three', image: '' },
-      price: 4,
-      title: 'Four',
-      images: ['https://img.1'],
-    },
-  ];
-
   beforeEach(() => {
     initialState = productPageInitialState;
   });
 
   it('handles loading products', () => {
-    let products = [];
-
-    for (let i = 0; i < 20; i++) {
-      products.push({
-        id: i,
-        name: 'Whatever ' + i,
-        price: 1 * 1,
-        images: [''],
-        title: 'Blah',
-        category: categories[0],
-      });
-    }
-
     const state = productPageReducer(initialState, {
       type: 'PRODUCTS_LOADED',
-      products,
+      products: allProducts,
     });
 
-    expect(state.allProducts).toEqual(products);
-    expect(state.filteredProducts).toEqual(products.slice(0, 10));
+    expect(state.allProducts).toEqual(allProducts);
+    expect(state.filteredProducts).toEqual(allProducts.slice(0, 10));
     expect(state.currentPage).toBe(0);
-    expect(state.numberOfPages).toBe(2);
+    expect(state.numberOfPages).toBe(10);
   });
 
   it('handles selecting a category', () => {
-    const state = productPageReducer(
-      {
-        ...initialState,
-        allProducts,
-        categories,
-        selectedCategory: null,
-      },
-      {
-        type: 'CATEGORY_TOGGLED',
-        categoryId: 2,
-      }
-    );
-
-    expect(state.allProducts).toEqual(allProducts);
-    expect(state.filteredProducts).toEqual([
+    const products = [
       {
         id: 2,
         images: ['https://img.1'],
@@ -101,19 +56,52 @@ describe('Product Page Reducer', () => {
         images: ['https://img.1'],
         price: 3,
         title: 'Three',
-        category: { id: 2, image: '', name: 'Two' },
+        category: { id: 3, image: '', name: 'Three' },
       },
-    ]);
+    ];
+
+    const state = productPageReducer(
+      {
+        ...initialState,
+        allProducts: products,
+        categories,
+        selectedCategory: null,
+      },
+      {
+        type: 'CATEGORY_TOGGLED',
+        categoryId: 2,
+      }
+    );
+
+    expect(state.allProducts).toEqual(products);
+    expect(state.filteredProducts).toEqual([products[0]]);
     expect(state.title).toEqual('Category Two');
     expect(state.currentPage).toBe(0);
     expect(state.numberOfPages).toBe(1);
   });
 
   it('handles changing the currently selected category', () => {
+    const products = [
+      {
+        id: 2,
+        images: ['https://img.1'],
+        price: 2,
+        title: 'Two',
+        category: { id: 2, image: '', name: 'Two' },
+      },
+      {
+        id: 3,
+        images: ['https://img.1'],
+        price: 3,
+        title: 'Three',
+        category: { id: 1, image: '', name: 'One' },
+      },
+    ];
+
     const state = productPageReducer(
       {
         ...initialState,
-        allProducts,
+        allProducts: products,
         categories,
         selectedCategory: 2,
       },
@@ -123,16 +111,8 @@ describe('Product Page Reducer', () => {
       }
     );
 
-    expect(state.allProducts).toEqual(allProducts);
-    expect(state.filteredProducts).toEqual([
-      {
-        id: 1,
-        category: { id: 1, name: 'One', image: '' },
-        images: ['https://img.1'],
-        price: 1,
-        title: 'One',
-      },
-    ]);
+    expect(state.allProducts).toEqual(products);
+    expect(state.filteredProducts).toEqual([products[1]]);
     expect(state.title).toEqual('Category One');
   });
 
@@ -142,7 +122,7 @@ describe('Product Page Reducer', () => {
         ...initialState,
         allProducts,
         categories,
-        selectedCategory: 2,
+        selectedCategory: 1,
       },
       {
         type: 'CATEGORY_TOGGLED',
@@ -151,7 +131,7 @@ describe('Product Page Reducer', () => {
     );
 
     expect(state.allProducts).toEqual(allProducts);
-    expect(state.filteredProducts).toEqual(allProducts);
+    expect(state.filteredProducts).toEqual(allProducts.slice(0, 10));
     expect(state.title).toEqual('All Products');
   });
 
@@ -169,17 +149,17 @@ describe('Product Page Reducer', () => {
       { ...initialState, allProducts },
       {
         type: 'PAGE_CHANGED',
-        pageNumber: 0,
+        pageNumber: 1,
       }
     );
 
-    expect(state.currentPage).toBe(0);
-    expect(state.filteredProducts).toEqual(allProducts);
-    expect(state.numberOfPages).toBe(1);
+    expect(state.currentPage).toBe(1);
+    expect(state.filteredProducts).toEqual(allProducts.slice(10, 20));
+    expect(state.numberOfPages).toBe(10);
   });
 
   it.each([
-    [54, 6],
+    [77, 8],
     [0, 0],
     [1, 1],
   ])(
