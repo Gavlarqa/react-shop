@@ -53,6 +53,44 @@ describe('Paginator', () => {
   );
 
   it.each([
+    [1, 0, 'true', 'true'],
+    [3, 0, 'false', 'true'],
+    [3, 2, 'true', 'false'],
+  ])(
+    'disables the pagination buttons if there are no more pages: Number of Pages: %s, Current Page: %s',
+    async (
+      numberOfPages: number,
+      currentPage: number,
+      forwardDisabled: string,
+      backwardDisabled: string
+    ) => {
+      render(
+        <Paginator
+          numberOfPages={numberOfPages}
+          currentPage={currentPage}
+          onChange={mockOnChange}
+        />
+      );
+
+      const forwardButton = screen.getByLabelText(
+        `Go to Page ${currentPage + 1}`
+      );
+
+      const backwardButton = screen.getByLabelText(
+        `Go to Page ${currentPage - 1}`
+      );
+
+      expect(forwardButton).toHaveAttribute('aria-disabled', forwardDisabled);
+
+      if (forwardDisabled === 'true') expect(forwardButton).toBeDisabled();
+
+      expect(backwardButton).toHaveAttribute('aria-disabled', backwardDisabled);
+
+      if (backwardDisabled === 'true') expect(backwardButton).toBeDisabled();
+    }
+  );
+
+  it.each([
     [1, 2],
     [4, 3],
   ])(
