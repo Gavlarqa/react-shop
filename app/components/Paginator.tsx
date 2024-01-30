@@ -1,4 +1,4 @@
-import { Box, MenuItem, Select } from '@mui/material';
+import { Box } from '@mui/material';
 import Button from '@mui/material/Button';
 import { ReactElement, useState } from 'react';
 
@@ -9,10 +9,9 @@ function Paginator({
 }: PaginatorProps): ReactElement {
   return (
     <Box display='flex' justifyContent='center'>
-      <nav role='pagination' aria-label='Product Pagination'>
+      <nav role='navigation' aria-label='Product Pagination'>
         <Button
           onClick={() => onChange(currentPage - 1)}
-          size='medium'
           variant='contained'
           aria-disabled={currentPage === 0}
           disabled={currentPage === 0}
@@ -20,21 +19,19 @@ function Paginator({
         >
           Previous
         </Button>
-        <Select
-          value={`${currentPage}`}
+        <select
           aria-label='current page'
-          size='small'
+          value={`${currentPage}`}
           onChange={(e) => onChange(parseInt(e.target.value))}
         >
           {Array.from(Array(numberOfPages).keys()).map((x) => (
-            <MenuItem key={x} value={x}>
+            <option key={x} value={x}>
               Page {x + 1}
-            </MenuItem>
+            </option>
           ))}
-        </Select>
+        </select>
         <Button
           variant='contained'
-          size='medium'
           disabled={currentPage === numberOfPages - 1}
           aria-disabled={currentPage === numberOfPages - 1}
           aria-label={`Go to Page ${currentPage + 1}`}

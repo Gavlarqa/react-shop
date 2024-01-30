@@ -27,11 +27,10 @@ describe('Paginator', () => {
     expect(option.selected).toBe(true);
   });
 
-  it.each(
-    [
-      [1, 0],
-      [4, 3],
-    ],
+  it.each([
+    [1, 0],
+    [4, 3],
+  ])(
     'handles selecting the page with the dropdown',
     async (displayName: number, expectedPage: number) => {
       const user = userEvent.setup();
