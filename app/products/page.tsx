@@ -9,6 +9,7 @@ import {
   initialState,
   productPageReducer,
 } from './reducers/productPageReducer';
+import Paginator from '../components/Paginator';
 
 export default function ListProductsPage() {
   const [state, dispatch] = useReducer(productPageReducer, initialState);
@@ -40,6 +41,10 @@ export default function ListProductsPage() {
         });
       });
   }, []);
+
+  const handlePageChange = (newPage: number) => {
+    dispatch({ type: 'PAGE_CHANGED', pageNumber: newPage });
+  };
 
   const handleCategorySelection = (id: number | null) => {
     dispatch({
@@ -84,6 +89,11 @@ export default function ListProductsPage() {
               </Table>
             </TableContainer>
           )}
+          <Paginator
+            currentPage={state.currentPage}
+            numberOfPages={state.numberOfPages}
+            onChange={handlePageChange}
+          />
         </Grid>
         <Grid item xs={3}>
           <hokodo-marketing data-element='square-small' />

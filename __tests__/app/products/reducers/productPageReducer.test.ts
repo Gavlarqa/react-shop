@@ -4,7 +4,7 @@ import {
   productPageReducer,
 } from '@/app/products/reducers/productPageReducer';
 
-describe.only('Product Page Reducer', () => {
+describe('Product Page Reducer', () => {
   let initialState = productPageInitialState;
 
   const categories: productCategory[] = [
@@ -49,23 +49,28 @@ describe.only('Product Page Reducer', () => {
   });
 
   it('handles loading products', () => {
-    const products = [
-      {
-        id: 1,
-        name: 'Whatever',
-        price: 1,
+    let products = [];
+
+    for (let i = 0; i < 20; i++) {
+      products.push({
+        id: i,
+        name: 'Whatever ' + i,
+        price: 1 * 1,
         images: [''],
         title: 'Blah',
         category: categories[0],
-      },
-    ];
+      });
+    }
+
     const state = productPageReducer(initialState, {
       type: 'PRODUCTS_LOADED',
       products,
     });
 
     expect(state.allProducts).toEqual(products);
-    expect(state.filteredProducts).toEqual(products);
+    expect(state.filteredProducts).toEqual(products.slice(0, 10));
+    expect(state.currentPage).toBe(0);
+    expect(state.numberOfPages).toBe(2);
   });
 
   it('handles selecting a category', () => {
@@ -100,6 +105,8 @@ describe.only('Product Page Reducer', () => {
       },
     ]);
     expect(state.title).toEqual('Category Two');
+    expect(state.currentPage).toBe(0);
+    expect(state.numberOfPages).toBe(1);
   });
 
   it('handles changing the currently selected category', () => {
@@ -156,4 +163,47 @@ describe.only('Product Page Reducer', () => {
 
     expect(state).toEqual({ ...initialState, categories });
   });
+
+  it('handles paging the products', () => {
+    const state = productPageReducer(
+      { ...initialState, allProducts },
+      {
+        type: 'PAGE_CHANGED',
+        pageNumber: 0,
+      }
+    );
+
+    expect(state.currentPage).toBe(0);
+    expect(state.filteredProducts).toEqual(allProducts);
+    expect(state.numberOfPages).toBe(1);
+  });
+
+  it.each([
+    [54, 6],
+    [0, 0],
+    [1, 1],
+  ])(
+    'sets the number of pages correctly for %s records',
+    async (numberOfRecords: number, expectedNumberOfPages: number) => {
+      let products = [];
+
+      for (let i = 0; i < numberOfRecords; i++) {
+        products.push({
+          id: i,
+          name: 'Whatever ' + i,
+          price: 1 * 1,
+          images: [''],
+          title: 'Blah',
+          category: categories[0],
+        });
+      }
+
+      const state = productPageReducer(initialState, {
+        type: 'PRODUCTS_LOADED',
+        products,
+      });
+
+      expect(state.numberOfPages).toBe(expectedNumberOfPages);
+    }
+  );
 });
