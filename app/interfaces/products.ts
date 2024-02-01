@@ -4,10 +4,16 @@ export interface productCategory {
   name: string;
 }
 
-export interface product {
+export interface IBasketProduct {
+  id: number;
+  price: number;
+  quantity: number;
+}
+export interface IProduct {
   id: number;
   price: number;
   title: string;
   images: string[];
   category: productCategory;
+  description: string;
 }

@@ -1,14 +1,14 @@
-import { productCategory, type product } from '@/app/interfaces/products';
+import { productCategory, type IProduct } from '@/app/interfaces/products';
 
 function filterProducts(
-  allProducts: product[] | null,
+  allProducts: IProduct[] | null,
   pageSize: number,
   currentPage: number,
   categoryId: number | null
 ) {
   if (allProducts === null) return { numberOfPages: 0, filteredProducts: null };
 
-  let filteredProducts: product[] =
+  let filteredProducts: IProduct[] =
     categoryId === null
       ? allProducts
       : allProducts.filter((x) => x.category.id === categoryId);
@@ -25,10 +25,9 @@ function filterProducts(
 }
 
 export function productPageReducer(
-  state: ProductPageState,
+  state: IProductPageState,
   action: ProductPageAction
-): ProductPageState {
-  // console.log({ action });
+): IProductPageState {
   switch (action.type) {
     case 'PRODUCTS_LOADED': {
       const { numberOfPages, filteredProducts } = filterProducts(
@@ -110,7 +109,7 @@ export function productPageReducer(
   }
 }
 
-export const initialState: ProductPageState = {
+export const initialState: IProductPageState = {
   allProducts: null,
   filteredProducts: null,
   selectedCategory: null,
@@ -121,10 +120,10 @@ export const initialState: ProductPageState = {
   currentPage: 0,
 };
 
-interface ProductPageState {
-  allProducts: product[] | null;
+interface IProductPageState {
+  allProducts: IProduct[] | null;
   categories: productCategory[] | null;
-  filteredProducts: product[] | null;
+  filteredProducts: IProduct[] | null;
   selectedCategory: number | null;
   title: string;
   pageSize: number;
@@ -133,7 +132,7 @@ interface ProductPageState {
 }
 
 type ProductPageAction =
-  | { type: 'PRODUCTS_LOADED'; products: product[] }
+  | { type: 'PRODUCTS_LOADED'; products: IProduct[] }
   | { type: 'CATEGORY_TOGGLED'; categoryId: number | null }
   | { type: 'CATEGORIES_LOADED'; categories: productCategory[] }
   | { type: 'PAGE_CHANGED'; pageNumber: number };
